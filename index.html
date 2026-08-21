@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>for you posts</title>
+    <link rel="stylesheet" href="c.css">
+    <script src="node_modules/axios/dist/axios.min.js"></script>
+
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+
+        <div class="logo">
+            SAVAR
+        </div>
+
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">Profile</a>
+        </div>
+        <div class="myaccount" id="accinfo">
+            <div class="upperAvatar"> </div>
+            <div class="name"></div>
+        </div>
+        <div class="auth-buttons">
+            <button class="login" id="login">Login</button>
+            <button class="register" id="register">signout</button>
+            <button class="logout" id="logout">logout</button>
+
+        </div>
+
+    </nav>
+
+
+    <!-- Post -->
+    <main class="post-container" id="postcontainer">
+
+        <div class="post-card">
+
+            <!-- User -->
+            <div class="post-header">
+
+                <div class="avatar">
+                    👨
+                </div>
+
+                <strong>@yarhmm</strong>
+
+            </div>
+
+
+            <!-- Image -->
+            <img class="post-image" src="https://images.unsplash.com/photo-1511497584788-876760111969" alt="Tree">
+
+
+            <!-- Post Content -->
+            <div class="post-content">
+
+                <div class="time">
+                    2 min ago
+                </div>
+
+                <h3>
+                    Special title treatment
+                </h3>
+
+                <p>
+                    With supporting text below as a natural lead-in
+                    to additional content.
+                </p>
+
+            </div>
+
+
+            <!-- Comments -->
+            <div class="comments">
+
+                <span>✎</span>
+
+                <span>(3) Comments</span>
+
+            </div>
+
+        </div>
+
+    </main>
+    <form id="loginForm" class="login-form">
+
+        <h3>Login</h3>
+        <label for="text">username</label>
+        <input type="text" id="username" required oninvalid="this.setCustomValidity('لازم تملى الخانة دي')"
+            oninput="this.setCustomValidity('')" autocomplete="off">
+
+        <label for="password">password</label>
+        <input type="password" id="password" required oninvalid="this.setCustomValidity('لازم تملى الخانة دي')"
+            oninput="this.setCustomValidity('')" autocomplete="new-password">
+
+        <button id="loginSubmit" type="submit">Login</button>
+
+    </form>
+
+
+
+
+    <form id="loginForm2" class="login-form2">
+
+        <h3>new user</h3>
+        <label for="text">username</label>
+        <input type="text" id="username2" required oninvalid="this.setCustomValidity('لازم تملى الخانة دي')"
+            oninput="this.setCustomValidity('')" autocomplete="off">
+
+        <label for="password">password</label>
+        <input type="password" id="password2" required oninvalid="this.setCustomValidity('لازم تملى الخانة دي')"
+            oninput="this.setCustomValidity('')" autocomplete="new-password">
+
+        <label for="text">name</label>
+        <input type="text" id="name2" required oninvalid="this.setCustomValidity('لازم تملى الخانة دي')"
+            oninput="this.setCustomValidity('')">
+
+        <label for="password">email2</label>
+        <input type="email" id="email2" required oninvalid="this.setCustomValidity('لازم تملى الخانة دي')"
+            oninput="this.setCustomValidity('')">
+
+        <label for="image">profile photo</label>
+        <input type="file" id="image2" required oninvalid="this.setCustomValidity('لازم تملى الخانة دي')"
+            oninput="this.setCustomValidity('')">
+
+        <button id="creatnewuser" type="submit">creat</button>
+
+    </form>
+
+
+
+
+    <form id="form-creatpost" class="form-creatpost">
+
+        <h3>new post</h3>
+        <label for="images">picture</label>
+        <input type="file" id="image" required oninvalid="this.setCustomValidity('لازم تملى الخانة دي')"
+            oninput="this.setCustomValidity('')">
+
+        <label for="password">body</label>
+        <input type="password" id="body" required oninvalid="this.setCustomValidity('لازم تملى الخانة دي')"
+            oninput="this.setCustomValidity('')">
+
+        <button id="creatnewpost" type="submit">post</button>
+
+    </form>
+    <button id="addPost" class="add-post">
+        +
+    </button>
+</body>
+<script src="j.js"></script>
+
+</html>
