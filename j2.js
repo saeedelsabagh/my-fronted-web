@@ -1,4 +1,8 @@
+console.log("JS FILE LOADED");
+
 let postId = new URLSearchParams(window.location.search).get("id");
+
+console.log("POST ID:", postId);
 
 function $(id) {
     return document.getElementById(id);
@@ -6,6 +10,8 @@ function $(id) {
 
 
  function addComment() {
+
+    $("send").onclick = null;
 
     $("send").onclick =function(){
 
@@ -84,18 +90,23 @@ function goBack() {
 
 
 
-
+console.log("CALLING FILLPOST");
 
 fillpost(postId);
+
 function fillpost(postId) {
+    
 
    axios.get(`https://tarmeezacademy.com/api/v1/posts/${postId}`)
 
         .then((response) => {
 
             const post = response.data.data;
-
-            //$("postcontainer").innerHTML = "";
+            console.log(post.comments);
+console.log(post.comments_count);
+            console.log("POST:", post);
+console.log("COMMENTS:", post.comments);
+            
 
                 let imghtml = "";
 
@@ -171,7 +182,7 @@ function fillpost(postId) {
 
 
                             <div class="comments-list2" id="commentbody2">
-
+                                
                             </div>
 
                             <div class="add-comment2">
@@ -185,6 +196,53 @@ function fillpost(postId) {
                             </div>
                             
                     `;
+                    fillapioldcomments();
                     addComment();
         });
+}
+
+
+
+function fillapioldcomments(){
+    console.log("fillapioldcomments START");
+    axios.get(`https://tarmeezacademy.com/api/v1/posts/${postId}/comments`)
+    .then((commentsResponse) => {
+        console.log("COMMENTS API:", commentsResponse.data);
+        const allcomments = commentsResponse.data.data;
+        console.log("ALL COMMENTS:", allcomments);
+        for (let comment of allcomments) {
+
+            let profilehtml = "";
+
+            if (typeof comment.author.profile_image === "string") {
+
+                profilehtml = `
+                    <div class="comment-avatar2">
+                        <img src="${comment.author.profile_image}">
+                    </div>
+                `;
+
+            } else {
+
+                profilehtml = `
+                    <div class="comment-avatar2">
+                        👨
+                    </div>
+                `;
+            }
+
+            $("commentbody2").innerHTML += `
+                <div class="comment2">
+
+                    ${profilehtml}
+
+                    <div class="comment-body2">
+                        <strong>${comment.author.name}</strong>
+                        <p>${comment.body}</p>
+                    </div>
+
+                </div>
+            `;
+        }
+    });
 }
