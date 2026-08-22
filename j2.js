@@ -1,3 +1,5 @@
+let postId = new URLSearchParams(window.location.search).get("id");
+
 function $(id) {
     return document.getElementById(id);
 }
@@ -68,20 +70,97 @@ $("send").onclick = function addComment() {
 
 };
 
-function openComments(postId) {
-
-    let token = localStorage.getItem("token");
-
-    if (!token) {
-        showAlert("You must login first");
-        return;
-    }
-
-    window.location.href = `index2.html?id=${postId}`;
-}
 
 function goBack() {
+
     let postId = new URLSearchParams(window.location.search).get("id");
 
     window.location.href = `index.html#post-${postId}`;
+}
+
+
+
+
+
+fillpost(postId);
+function fillpost(postId) {
+
+   axios.get(`https://tarmeezacademy.com/api/v1/posts/${postId}`)
+
+        .then((response) => {
+
+            const post = response.data.data;
+
+            //$("postcontainer").innerHTML = "";
+
+                let imghtml = "";
+
+                if (typeof post.image === "string") {
+
+                    imghtml = `
+                        <img
+                            class="post-image"
+                            src="${post.image}"
+                            alt="Post Image">
+                    `;
+                }
+
+                let profilehtml = "";
+
+                if (typeof post.author.profile_image === "string") {
+
+                    profilehtml = `
+                    <img
+                        class="profile-image"
+                        src="${post.author.profile_image}"
+                        alt="Profile">
+                `;
+                }
+                $("postcontainer2").innerHTML ="";
+                $("postcontainer2").innerHTML += `
+
+                    <div class="post-card2">
+
+                        <div class="post-header2">
+
+                            ${profilehtml}
+
+                            <strong>
+                                ${post.author.name}
+                            </strong>
+
+                        </div>
+
+                        ${imghtml}
+
+                        <div class="post-content"2>
+
+                            <div class="time"2>
+                                ${post.created_at}
+                            </div>
+
+                            <h3>
+                                ${post.body}
+                            </h3>
+
+                            <p>
+                                With supporting text below as a natural lead-in
+                                to additional content.
+                            </p>
+
+                        </div>
+
+                        <div class="comments2" onclick="window.location.href='index2.html'">
+
+                            <span >✎</span>
+
+                            <span>
+                                (${post.comments_count}) Comments
+                            </span>
+
+                        </div>
+
+                    </div>
+                `;
+        });
 }

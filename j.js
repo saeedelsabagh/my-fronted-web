@@ -4,7 +4,7 @@ window.addEventListener("scroll",function(){
     const endofpage=window.innerHeight+window.pageYOffset>=document.body.offsetHeight;
     if(endofpage){
         curruntpage++;
-        fillposts(curruntpage+1);
+        fillposts(curruntpage);
     }
 })
 
@@ -82,9 +82,9 @@ function fillposts(page=1) {
 
                         </div>
 
-                        <div class="comments">
+                        <div class="comments" onclick="openComments(${post.id})">
 
-                            <span onclick="window.location.href='index2.html'">✎</span>
+                            <span >✎</span>
 
                             <span>
                                 (${post.comments_count}) Comments
@@ -98,6 +98,51 @@ function fillposts(page=1) {
         });
 }
 fillposts();
+
+
+async function findPostAndScroll(postId) {
+
+    let page = 1;
+
+    while (true) {
+
+        let post = document.getElementById(`post-${postId}`);
+
+        // لقينا البوست
+        if (post) {
+
+            post.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+
+            break;
+        }
+
+        // حمّل الصفحة التالية
+        page++;
+
+        await fillposts(page);
+
+        // شوف هل الصفحة رجعت بوستات أصلاً
+        let posts = document.querySelectorAll(".post-card");
+
+        // لو مفيش بوستات جديدة، وقف
+        if (posts.length === 0) {
+            break;
+        }
+    }
+}
+
+let postId = window.location.hash.replace("#post-", "");
+
+if (postId) {
+    findPostAndScroll(postId);
+} else {
+    fillposts();
+}
+
+
 
 
 
@@ -146,10 +191,10 @@ $("form-creatpost").onsubmit = function addposts(e) {
             }
 
             $("postcontainer").innerHTML += `
-            <div class="post-card">
+            <div class="post-card" id="post-${post.id}"  onclick="openComments(${post.id})">
 
                 <div class="post-header">
-                    <img src="${post.author.profile_image}">/////////////////////////
+                    <img src="${post.author.profile_image}">
                     <strong>${post.author.name}</strong>
                 </div>
 
@@ -167,7 +212,7 @@ $("form-creatpost").onsubmit = function addposts(e) {
 
                 </div>
 
-                <span onclick="openComments(${post.id})">✎</span>
+                <span >✎</span>
 
             </div>
         `;
@@ -185,7 +230,17 @@ $("form-creatpost").onsubmit = function addposts(e) {
 
 
 
+function openComments(postId) {
 
+    let token = localStorage.getItem("token");
+
+    if (!token) {
+        showAlert("You must login first");
+        return;
+    }
+
+    window.location.href = `index2.html?id=${postId}`;
+}
 
 
 
