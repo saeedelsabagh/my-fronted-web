@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>Page Title</title>
+    <link rel="stylesheet" href="c.css">
+</head>
+
+<body>
+
+    <div class="profile-page">
+
+        <div class="profile-card">
+
+            <div class="profile-cover"></div>
+
+            <div class="profile-content">
+
+                <div class="profile-image-container">
+                    <img id="profileImage" src="" alt="Profile">
+                </div>
+
+                <h1 id="profileName"></h1>
+
+                <p class="username" id="profileUsername"></p>
+
+                <div class="line"></div>
+
+                <div class="info">
+
+                    <div class="info-box">
+                        <span class="icon">👤</span>
+
+                        <div>
+                            <small>Username</small>
+                            <p id="usernameInfo"></p>
+                        </div>
+                    </div>
+
+
+                    <div class="info-box">
+                        <span class="icon">📧</span>
+
+                        <div>
+                            <small>Email</small>
+                            <p id="emailInfo"></p>
+                        </div>
+                    </div>
+
+
+                    <div class="info-box">
+                        <span class="icon">📝</span>
+
+                        <div>
+                            <small>Name</small>
+                            <p id="nameInfo"></p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <button class="back-btn" onclick="goHome()">
+                    ← Back to Home
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script src="profile.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</body>
+
+</html>

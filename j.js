@@ -149,7 +149,7 @@ if (postId) {
 $("form-creatpost").onsubmit = function addposts(e) {
 
     e.preventDefault();
-
+    $("creatnewpost").disabled = true;
     let body = $("body").value;
     let image = $("image").files[0];
 
@@ -271,6 +271,7 @@ $("loginForm").onsubmit = function log_req(e) {
             $("accinfo").classList.add("show");
 
             const user = response.data.user;
+            localStorage.setItem("user", JSON.stringify(user));
 
             $("accinfo").innerHTML = `
             <div class="upperAvatar">
@@ -335,6 +336,7 @@ $("loginForm2").onsubmit = function logout_req(e) {
             $("accinfo").classList.add("show");
 
             const user = response.data.user;
+            localStorage.setItem("user", JSON.stringify(user));
 
             let profilehtml = "";
 
@@ -425,3 +427,41 @@ $("register").addEventListener("click", function () {
 });
 
 
+
+
+function checkLogin() {
+
+    let token = localStorage.getItem("token");
+    let user = localStorage.getItem("user");
+
+    if (token && user) {
+
+        user = JSON.parse(user);
+
+        $("register").classList.add("show");
+        $("login").classList.add("show");
+        $("logout").classList.add("show");
+        $("addPost").classList.add("show");
+        $("accinfo").classList.add("show");
+
+        $("accinfo").innerHTML = `
+            <div class="upperAvatar">
+                <img src="${user.profile_image}">
+            </div>
+
+            <div class="name">
+                ${user.username}
+            </div>
+        `;
+
+    } else {
+
+        $("register").classList.remove("show");
+        $("login").classList.remove("show");
+        $("logout").classList.remove("show");
+        $("addPost").classList.remove("show");
+        $("accinfo").classList.remove("show");
+    }
+}
+
+checkLogin();

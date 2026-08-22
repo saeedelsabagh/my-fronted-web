@@ -12,9 +12,10 @@ function $(id) {
  function addComment() {
 
     $("send").onclick = null;
-
+    
     $("send").onclick =function(){
 
+    
     let comment = $("writecomment").value;
 
     let token = localStorage.getItem("token");
@@ -196,6 +197,7 @@ console.log("COMMENTS:", post.comments);
                             </div>
                             
                     `;
+                    $("send").disabled = false;
                     fillapioldcomments(post.comments);
                     addComment();
         });
