@@ -1,15 +1,27 @@
+
+let curruntpage=1;
+window.addEventListener("scroll",function(){
+    const endofpage=window.innerHeight+window.pageYOffset>=document.body.offsetHeight;
+    if(endofpage){
+        curruntpage++;
+        fillposts(curruntpage+1);
+    }
+})
+
 function $(id) {
     return document.getElementById(id);
 }
-function fillposts() {
 
-    axios.get("https://tarmeezacademy.com/api/v1/posts?limit=15")
+
+function fillposts(page=1) {
+
+    axios.get(`https://tarmeezacademy.com/api/v1/posts?limit=2&page=${page}`)
 
         .then((response) => {
 
             const posts = response.data.data;
 
-            $("postcontainer").innerHTML = "";
+            //$("postcontainer").innerHTML = "";
 
             for (let post of posts) {
 
@@ -72,7 +84,7 @@ function fillposts() {
 
                         <div class="comments">
 
-                            <span>✎</span>
+                            <span onclick="window.location.href='index2.html'">✎</span>
 
                             <span>
                                 (${post.comments_count}) Comments
@@ -155,9 +167,7 @@ $("form-creatpost").onsubmit = function addposts(e) {
 
                 </div>
 
-                <div class="comments">
-                    ✎ (${post.comments_count}) Comments
-                </div>
+                <span onclick="openComments(${post.id})">✎</span>
 
             </div>
         `;
@@ -358,3 +368,5 @@ $("register").addEventListener("click", function () {
     $("loginForm").classList.remove("show");
     $("loginForm2").classList.toggle("show");
 });
+
+
