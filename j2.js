@@ -5,14 +5,16 @@ function $(id) {
 }
 
 
-$("send").onclick = function addComment() {
+ function addComment() {
+
+    $("send").onclick =function(){
 
     let comment = $("writecomment").value;
 
     let token = localStorage.getItem("token");
 
     axios.post(
-        "https://tarmeezacademy.com/api/v1/posts/2/comments",
+        `https://tarmeezacademy.com/api/v1/posts/${postId}/comments`,
         {
             body: comment
         },
@@ -68,7 +70,8 @@ $("send").onclick = function addComment() {
 
     });
 
-};
+}
+ };
 
 
 function goBack() {
@@ -76,6 +79,7 @@ function goBack() {
     let postId = new URLSearchParams(window.location.search).get("id");
 
     window.location.href = `index.html#post-${postId}`;
+    
 }
 
 
@@ -116,51 +120,71 @@ function fillpost(postId) {
                         alt="Profile">
                 `;
                 }
-                $("postcontainer2").innerHTML ="";
-                $("postcontainer2").innerHTML += `
 
-                    <div class="post-card2">
+                
+                $("postcontainer2").innerHTML += ` 
+ 
+                        <div class="post-card2"> 
+                    
+                            <div class="post-header2"> 
+                    
+                                ${profilehtml} 
+                    
+                                <strong> 
+                                    ${post.author.name} 
+                                </strong> 
+                    
+                            </div> 
+                    
+                            ${imghtml} 
+                    
+                            <div class="post-content2"> 
+                    
+                                <div class="time2"> 
+                                    ${post.created_at} 
+                                </div> 
+                    
+                                <h3> 
+                                    ${post.body} 
+                                </h3> 
+                    
+                                <p> 
+                                    With supporting text below as a natural lead-in 
+                                    to additional content. 
+                                </p> 
+                    
+                            </div> 
+                    
+                            <div class="comments2"> 
+                    
+                                <span>✎</span> 
+                    
+                                <span> 
+                                    (${post.comments_count}) Comments 
+                                </span> 
+                    
+                            </div> 
 
-                        <div class="post-header2">
 
-                            ${profilehtml}
 
-                            <strong>
-                                ${post.author.name}
-                            </strong>
 
-                        </div>
 
-                        ${imghtml}
 
-                        <div class="post-content"2>
+                            <div class="comments-list2" id="commentbody2">
 
-                            <div class="time"2>
-                                ${post.created_at}
                             </div>
 
-                            <h3>
-                                ${post.body}
-                            </h3>
+                            <div class="add-comment2">
 
-                            <p>
-                                With supporting text below as a natural lead-in
-                                to additional content.
-                            </p>
+                                <input id="writecomment" type="text" placeholder="Add your comment...">
 
-                        </div>
+                                <button id="send">send</button>
 
-                        <div class="comments2" onclick="window.location.href='index2.html'">
+                            </div>
 
-                            <span >✎</span>
-
-                            <span>
-                                (${post.comments_count}) Comments
-                            </span>
-
-                        </div>
-
-                    </div>
-                `;
+                            </div>
+                            
+                    `;
+                    addComment();
         });
 }
