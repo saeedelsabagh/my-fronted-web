@@ -15,7 +15,7 @@ function $(id) {
 
 function fillposts(page=1) {
 
-    axios.get(`https://tarmeezacademy.com/api/v1/posts?limit=2&page=${page}`)
+    return axios.get(`https://tarmeezacademy.com/api/v1/posts?limit=2&page=${page}`)
 
         .then((response) => {
 
@@ -51,7 +51,7 @@ function fillposts(page=1) {
 
                 $("postcontainer").innerHTML += `
 
-                    <div class="post-card">
+                    <div class="post-card" id="post-${post.id}">
 
                         <div class="post-header">
 
