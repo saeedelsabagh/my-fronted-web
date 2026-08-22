@@ -196,53 +196,47 @@ console.log("COMMENTS:", post.comments);
                             </div>
                             
                     `;
-                    fillapioldcomments();
+                    fillapioldcomments(post.comments);
                     addComment();
         });
 }
 
 
 
-function fillapioldcomments(){
-    console.log("fillapioldcomments START");
-    axios.get(`https://tarmeezacademy.com/api/v1/posts/${postId}/comments`)
-    .then((commentsResponse) => {
-        console.log("COMMENTS API:", commentsResponse.data);
-        const allcomments = commentsResponse.data.data;
-        console.log("ALL COMMENTS:", allcomments);
-        for (let comment of allcomments) {
+function fillapioldcomments(allcomments) {
+    
+    for (let comment of allcomments) {
 
-            let profilehtml = "";
+        let profilehtml = "";
 
-            if (typeof comment.author.profile_image === "string") {
+        if (typeof comment.author.profile_image === "string") {
 
-                profilehtml = `
-                    <div class="comment-avatar2">
-                        <img src="${comment.author.profile_image}">
-                    </div>
-                `;
+            profilehtml = `
+                <div class="comment-avatar2">
+                    <img src="${comment.author.profile_image}">
+                </div>
+            `;
 
-            } else {
+        } else {
 
-                profilehtml = `
-                    <div class="comment-avatar2">
-                        👨
-                    </div>
-                `;
-            }
-
-            $("commentbody2").innerHTML += `
-                <div class="comment2">
-
-                    ${profilehtml}
-
-                    <div class="comment-body2">
-                        <strong>${comment.author.name}</strong>
-                        <p>${comment.body}</p>
-                    </div>
-
+            profilehtml = `
+                <div class="comment-avatar2">
+                    👨
                 </div>
             `;
         }
-    });
+
+        $("commentbody2").innerHTML += `
+            <div class="comment2">
+
+                ${profilehtml}
+
+                <div class="comment-body2">
+                    <strong>${comment.author.name}</strong>
+                    <p>${comment.body}</p>
+                </div>
+
+            </div>
+        `;
+    }
 }
