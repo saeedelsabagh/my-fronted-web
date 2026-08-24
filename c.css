@@ -827,7 +827,7 @@ label {
 
         right: 50%;
 
-        height: auto+30px;
+        height: auto;
 
         max-height: calc(100vh - 90px);
 
@@ -1202,7 +1202,7 @@ label {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
     
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    margin: 20px;
+    margin: 20px 0;
 }
 
 
@@ -1229,13 +1229,11 @@ label {
 
 .post-header3 #update_post {
     width: 80px;
-    position: absolute;
-    right: 290px;
+    margin-left: auto;
 }
+
 .post-header3 #delete_post {
     width: 80px;
-    position: absolute;
-    right: 390px;
 }
 /* Profile image */
 
@@ -1341,7 +1339,3 @@ label {
         height: 230px;
     }
 }
-
-
-
-
