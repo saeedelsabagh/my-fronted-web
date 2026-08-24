@@ -1,8 +1,9 @@
 
-let curruntpage=1;
-window.addEventListener("scroll",function(){
-    const endofpage=window.innerHeight+window.pageYOffset>=document.body.offsetHeight;
-    if(endofpage){
+
+let curruntpage = 1;
+window.addEventListener("scroll", function () {
+    const endofpage = window.innerHeight + window.pageYOffset >= document.body.offsetHeight;
+    if (endofpage) {
         curruntpage++;
         fillposts(curruntpage);
     }
@@ -13,7 +14,7 @@ function $(id) {
 }
 
 
-function fillposts(page=1) {
+function fillposts(page = 1) {
 
     return axios.get(`https://tarmeezacademy.com/api/v1/posts?limit=2&page=${page}`)
 
@@ -31,7 +32,7 @@ function fillposts(page=1) {
 
                     imghtml = `
                         <img
-                            class="post-image"
+                            class="post-image" 
                             src="${post.image}"
                             alt="Post Image">
                     `;
@@ -146,10 +147,46 @@ if (postId) {
 
 
 
-$("form-creatpost").onsubmit = function addposts(e) {
+
+
+
+
+
+let editPostId = localStorage.getItem("editPostId");
+console.log("EDIT ID:", editPostId);
+console.log("EDIT ID TYPE:", typeof editPostId);
+
+// لو جاي من Update
+if (editPostId) {
+
+    axios.get(`https://tarmeezacademy.com/api/v1/posts/${editPostId}`)
+        .then(function (response) {
+            $("form-creatpost").classList.add("show");
+            const post = response.data.data;
+
+            console.log("Post:", post);
+            $("h3").innerText = "Update Post";
+
+            $("body").value = post.body;
+
+
+        })
+        .catch(function (error) {
+
+            console.log(error);
+
+        });
+
+}
+
+
+// نفس الفورم في الحالتين
+$("form-creatpost").onsubmit = function (e) {
 
     e.preventDefault();
+
     $("creatnewpost").disabled = true;
+
     let body = $("body").value;
     let image = $("image").files[0];
 
@@ -158,75 +195,92 @@ $("form-creatpost").onsubmit = function addposts(e) {
     let formData = new FormData();
 
     formData.append("body", body);
-    formData.append("image", image);
 
-    axios.post(
-        "https://tarmeezacademy.com/api/v1/posts",
-        formData,
-        {
-            headers: {
-                Authorization: `Bearer ${token}`
+    if (image) {
+        formData.append("image", image);
+    }
+
+
+    // =========================
+    // UPDATE
+    // =========================
+
+    if (editPostId) {
+
+        formData.append("_method", "PUT");
+
+        axios.post(
+            `https://tarmeezacademy.com/api/v1/posts/${editPostId}`,
+            formData,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
             }
-        }
-    )
-        .then(function (response) {
-            showAlert2("post has been made successfully");
+        )
 
-            $("form-creatpost").classList.remove("show");
+            .then(function (response) {
+
+                console.log("UPDATED:", response.data);
+                $("body").value = "";
+                showAlert2("Post has been updated successfully");
+
+                localStorage.removeItem("editPostId");
+
+                $("form-creatpost").classList.remove("show");
+
+                $("creatnewpost").disabled = false;
+
+            })
+
+            .catch(function (error) {
+
+                console.log(error);
+
+                $("creatnewpost").disabled = false;
+
+            });
 
 
-            console.log("SUCCESS:", response.data);
+        // =========================
+        // CREATE
+        // =========================
 
-            const post = response.data.data;
+    } else {
 
-            let imghtml = "";
-
-            if (typeof post.image === "string") {
-                imghtml = `
-                <img
-                    class="post-image"
-                    src="${post.image}"
-                    alt="Post Image">
-            `;
+        axios.post(
+            "https://tarmeezacademy.com/api/v1/posts",
+            formData,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
             }
+        )
 
-            $("postcontainer").innerHTML += `
-            <div class="post-card" id="post-${post.id}"  onclick="openComments(${post.id})">
+            .then(function (response) {
 
-                <div class="post-header">
-                    <img src="${post.author.profile_image}">
-                    <strong>${post.author.name}</strong>
-                </div>
+                showAlert2("post has been made successfully");
 
-                ${imghtml}
+                $("form-creatpost").classList.remove("show");
 
-                <div class="post-content">
+                console.log("SUCCESS:", response.data);
 
-                    <div class="time">
-                        ${post.created_at}
-                    </div>
+                $("creatnewpost").disabled = false;
 
-                    <h3>
-                        ${post.body}
-                    </h3>
+            })
 
-                </div>
+            .catch(function (error) {
 
-                <span >✎</span>
+                console.log(error);
 
-            </div>
-        `;
+                $("creatnewpost").disabled = false;
 
-        })
-        .catch(function (error) {
+            });
 
-            let message = error.response.data.message;
+    }
 
-            showAlert(message);
-        });
 };
-
-
 
 
 
@@ -312,7 +366,7 @@ $("loginForm2").onsubmit = function logout_req(e) {
 
     e.preventDefault();
 
-   
+
 
     axios.post(
         "https://tarmeezacademy.com/api/v1/register",
@@ -444,9 +498,19 @@ function checkLogin() {
         $("addPost").classList.add("show");
         $("accinfo").classList.add("show");
 
+       let profilehtml = "";
+
+        if (typeof user.profile_image === "string") {
+
+            profilehtml = `
+                <img src="${user.profile_image}">
+            `;
+
+        }
+
         $("accinfo").innerHTML = `
             <div class="upperAvatar">
-                <img src="${user.profile_image}">
+                ${profilehtml}
             </div>
 
             <div class="name">

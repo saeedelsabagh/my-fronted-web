@@ -40,55 +40,8 @@
     <!-- Post -->
     <main class="post-container" id="postcontainer">
 
-        <div class="post-card">
-
-            <!-- User -->
-            <div class="post-header">
-
-                <div class="avatar">
-                    👨
-                </div>
-
-                <strong>@yarhmm</strong>
-
-            </div>
-
-
-            <!-- Image -->
-            <img class="post-image" src="https://images.unsplash.com/photo-1511497584788-876760111969" alt="Tree">
-
-
-            <!-- Post Content -->
-            <div class="post-content">
-
-                <div class="time">
-                    2 min ago
-                </div>
-
-                <h3>
-                    Special title treatment
-                </h3>
-
-                <p>
-                    With supporting text below as a natural lead-in
-                    to additional content.
-                </p>
-
-            </div>
-
-
-            <!-- Comments -->
-            <div class="comments">
-
-                <span >✎</span>
-
-                <span>(3) Comments</span>
-
-            </div>
-
-        </div>
-
     </main>
+
     <form id="loginForm" class="login-form">
 
         <h3>Login</h3>
@@ -139,13 +92,13 @@
 
     <form id="form-creatpost" class="form-creatpost">
 
-        <h3>new post</h3>
+        <h3 id="h3">new post</h3>
         <label for="images">picture</label>
-        <input type="file" id="image" required oninvalid="this.setCustomValidity('لازم تملى الخانة دي')"
-            oninput="this.setCustomValidity('')">
+        <input type="file" id="image">
+        
 
         <label for="password">body</label>
-        <input type="password" id="body" required oninvalid="this.setCustomValidity('لازم تملى الخانة دي')"
+        <input type="text" id="body" required oninvalid="this.setCustomValidity('لازم تملى الخانة دي')"
             oninput="this.setCustomValidity('')">
 
         <button id="creatnewpost" type="submit">post</button>
